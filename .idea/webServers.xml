@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="42b76c47-8caf-4b6d-b981-d87ba039c368" name="server01.germany-says-welcome.de" url="http://server01.germany-says-welcome.de">
+        <fileTransfer host="server01.germany-says-welcome.de" port="22" privateKey="C:\Users\Arne\.ssh\init_private_openssh" accessType="SFTP" passphrase="dfc2dfd9dfdcdf9edfcfdfdcdfcfdfd8" username="initag" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

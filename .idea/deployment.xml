@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="server01.germany-says-welcome.de">
+    <serverData>
+      <paths name="server01.germany-says-welcome.de">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/var/wordpress/wordpress/wp-content/plugins/germany-says-welcome" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
