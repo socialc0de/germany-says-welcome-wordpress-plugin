@@ -9,6 +9,7 @@ Version: 0.1
 License: AGPLv3
 */
 
+
 // Make sure that no info is exposed if file is called directly -- Idea taken from Akismet plugin
 if ( !function_exists( 'add_action' ) ) {
     echo "This page cannot be called directly.";
@@ -30,19 +31,34 @@ if ( basename(dirname(__FILE__)) == 'plugins' )
 else define("GSW_DIR" , basename(dirname(__FILE__)) . '/');
 define("GSW_PATH", WP_PLUGIN_URL . "/" . GSW_DIR);
 
-/* Add new menu */
+
+
+/**********************************************************************************************************************************************
+ *	Plugin stuff
+ **********************************************************************************************************************************************/
+
+/** Add plugin menu ***/
+function gsw_add_pages() {
+    add_menu_page('Germany Says Welcome Overview','Germany Says Welcome', 'read', 'gsw_overview', 'gsw_overview', GSW_PATH.'images/logo_small.png');
+    add_submenu_page('gsw_overview', 'Overview for the GSW Plugin', 'Overview', 'read', 'gsw_overview', 'gsw_intro');
+}
 add_action('admin_menu', 'gsw_add_pages');
-// http://codex.wordpress.org/Function_Reference/add_action
+
+/** Plugin Main Page **/
+function gsw_overview() {
+    echo <<<HTML
+<div class="wrap"><h2>Germany Says Welcome Plugin Overview</h2>
+	<p>Nothing here yet</p>
+</div>
+HTML;
+    exit;
+}
 
 
 
-
-
-
-///////////////////////////////////////////////////////////////
-/////////////////////// FAQ Post Type /////////////////////////
-///////////////////////////////////////////////////////////////
-
+/**********************************************************************************************************************************************
+ *	FAQ post type and taxonomy
+ **********************************************************************************************************************************************/
 
 // Create FAQ custom post type
 function create_post_type_faq()
@@ -316,31 +332,6 @@ add_action( 'manage_posts_custom_column', 'display_emergency_numbers_body', 10, 
 
 
 
-
-// function for: 
-function gsw_add_pages() {
-
-    add_menu_page('Germany Says Welcome Overview','Germany Says Welcome', 'read', 'gsw_overview', 'gsw_overview', GSW_PATH.'images/logo_small.png');
-    // http://codex.wordpress.org/Function_Reference/add_menu_page
-
-    add_submenu_page('gsw_overview', 'Overview for the GSW Plugin', 'Overview', 'read', 'gsw_overview', 'gsw_intro');
-    // http://codex.wordpress.org/Function_Reference/add_submenu_page
-
-}
-
-function gsw_overview() {
-    ?>
-    <div class="wrap"><h2>Germany Says Welcome Plugin Overview</h2>
-        <p>Nothing here yet</p>
-    </div>
-    <?php
-    exit;
-}
-
-
-
-
-
 /**
  * Hook default_content
  * Set default value for content field cause wpml doesnt copy empty fields
@@ -372,7 +363,7 @@ function gsw_add_query_vars($vars){
 add_filter('query_vars', 'gsw_add_query_vars', 0);
 
 /**
- * sniff requets if api is called. get data and send json output
+ * sniff request if api is called. get data and send json output
  */
 function gsw_sniff_requests(){
     global $wp;
@@ -388,7 +379,6 @@ function gsw_sniff_requests(){
                 $posts = gsw_get_emergency();
                 break;
         }
-//echo '<pre>';print_r($wp->query_vars);echo '</pre>';die();
         // send json
         wp_send_json($posts);
         exit;
@@ -397,7 +387,8 @@ function gsw_sniff_requests(){
 add_action('parse_request', 'gsw_sniff_requests', 0);
 
 /**
- * get faq
+ * get faq data
+ * @return array
  */
 function gsw_get_faq() {
     global $post, $sitepress;
@@ -432,7 +423,6 @@ function gsw_get_faq() {
         $terms          = get_the_terms($post->ID, "faq_county");
         $codes           = array();
         foreach($terms as $term) {
-//echo '<pre>';print_r($term);echo '</pre>';die();
             $codes[] = $term->name;
         }
         $posts[] = array(
@@ -449,26 +439,32 @@ function gsw_get_faq() {
     return $posts;
 }
 
+/**
+ * get faq categories
+ * @return array
+ */
 function gsw_get_faq_categories() {
     global $sitepress;
+
     $terms = get_terms( 'faq_cat', array(
         'orderby'    => 'count',
         'hide_empty' => 0,
     ) );
     $categories = array();
     foreach($terms as $term) {
-//echo '<pre>';print_r($term);echo '</pre>';die();
         $categories[] = array(
             'id'            => $term->term_id,
             'original_id'   => icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() ),
             'title'         => array('rendered' => $term->name)
         );
     }
+
     return $categories;
 }
 
 /**
- * get emergency
+ * get emergency data
+ * @return array
  */
 function gsw_get_emergency() {
     global $post, $sitepress;
@@ -487,12 +483,11 @@ function gsw_get_emergency() {
         $terms          = get_the_terms($post->ID, "emergency_county");
         $codes           = array();
         foreach($terms as $term) {
-//echo '<pre>';print_r($terms);echo '</pre>';die();
             $codes[] = $term->name;
         }
         // custom fields
         $custom_fields = get_post_custom($parent_id);
-//echo '<pre>';print_r($custom_fields);echo '</pre>';die();
+        // add dataset
         $posts[] = array(
             'id'            => $post->ID,
             'original_id'   => $parent_id,
