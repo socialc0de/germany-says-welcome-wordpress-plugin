@@ -60,153 +60,144 @@ HTML;
  *	FAQ post type and taxonomy
  **********************************************************************************************************************************************/
 
-// Create FAQ custom post type
-function create_post_type_faq()
-{
+/**
+ * create custom post type "faq"
+ */
+function create_post_type_faq() {
+    // register taxonomy
     register_taxonomy_for_object_type('faq_cat', 'html5-blank');
-    register_post_type('faq', // Register Custom Post Type
-        array(
-            'labels' => array(
-                'name' => __('FAQs', 'html5blank'), // Rename these to suit
-                'singular_name' => __('FAQ', 'html5blank'),
-                'add_new' => __('Add New', 'html5blank'),
-                'add_new_item' => __('Add New', 'html5blank'),
-                'edit' => __('Edit', 'html5blank'),
-                'edit_item' => __('Edit Question', 'html5blank'),
-                'new_item' => __('New Question', 'html5blank'),
-                'view' => __('Display Question', 'html5blank'),
-                'view_item' => __('View Question', 'html5blank'),
-                'search_items' => __('Search Questions', 'html5blank'),
-                'not_found' => __('No question found', 'html5blank'),
-                'not_found_in_trash' => __('No question found in Trash', 'html5blank')
-            ),
-            'description'        => __( 'FAQs', 'html5blank' ),
-            'public'             => true,
-            'publicly_queryable' => true,
-            'show_ui'            => true,
-            'show_in_menu'       => true,
-            'query_var'          => true,
-            'rewrite'            => array( 'slug' => 'faq' ),
-            'capability_type'    => 'post',
-            'has_archive'        => true,
-            'hierarchical'       => false,
-            'menu_position'      => null,
-            'show_in_rest'       => true,
-            'rest_controller_class' => 'WP_REST_Posts_Controller',
-            'supports' => array(
-                'title',
-                'custom-fields',
-                'editor'
-            ), // Go to Dashboard Custom HTML5 Blank post for supports
-            'can_export' => true // Allows export in Tools > Export
-            // Add Category and Post Tags support
-        ));
+    // register post type
+    register_post_type('faq', array(
+        'labels' => array(
+            'name' => __('FAQs', 'html5blank'),
+            'singular_name' => __('FAQ', 'html5blank'),
+            'add_new' => __('Add New', 'html5blank'),
+            'add_new_item' => __('Add New', 'html5blank'),
+            'edit' => __('Edit', 'html5blank'),
+            'edit_item' => __('Edit Question', 'html5blank'),
+            'new_item' => __('New Question', 'html5blank'),
+            'view' => __('Display Question', 'html5blank'),
+            'view_item' => __('View Question', 'html5blank'),
+            'search_items' => __('Search Questions', 'html5blank'),
+            'not_found' => __('No question found', 'html5blank'),
+            'not_found_in_trash' => __('No question found in Trash', 'html5blank')
+        ),
+        'description'        => __( 'FAQs', 'html5blank' ),
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'faq' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'show_in_rest'       => true,
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
+        'supports' => array(
+            'title',
+            'custom-fields',
+            'editor'
+        ),
+        'can_export' => true
+    ));
 }
 
-
-
+/**
+ * create "faq category" taxonomy
+ */
 function create_faq_cat() {
-    register_taxonomy(
-        'faq_cat',
-        'faq',
-        array(
-            'label' => __( 'FAQ Category' ),
-            'rewrite' => array( 'slug' => 'faq_cat' ),
-            'hierarchical' => true,
-            'query_var'         => true,
-            'rewrite'           => array( 'slug' => 'faq_cat' ),
-            'show_in_rest'       => true,
-            'rest_base'          => 'faq_cat',
-            'rest_controller_class' => 'WP_REST_Terms_Controller'
-        )
-    );
+    register_taxonomy('faq_cat', 'faq', array(
+        'label' => __( 'FAQ Category' ),
+        'rewrite' => array( 'slug' => 'faq_cat' ),
+        'hierarchical' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'faq_cat' ),
+        'show_in_rest'       => true,
+        'rest_base'          => 'faq_cat',
+        'rest_controller_class' => 'WP_REST_Terms_Controller'
+    ));
 }
 
+/**
+ * create "faq steps" taxonomy
+ */
 function create_steps() {
-    register_taxonomy(
-        'faq_step',
-        'faq',
-        array(
-            'label' => __( 'FAQ Steps' ),
-            'rewrite' => array( 'slug' => 'faq_step' ),
-            'hierarchical' => true,
-            'query_var'         => true,
-            'show_in_rest'       => true,
-            'rest_base'          => 'faq_cat',
-            'rest_controller_class' => 'WP_REST_Terms_Controller'
-        )
-    );
+    register_taxonomy('faq_step', 'faq', array(
+        'label' => __( 'FAQ Steps' ),
+        'rewrite' => array( 'slug' => 'faq_step' ),
+        'hierarchical' => true,
+        'query_var'         => true,
+        'show_in_rest'       => true,
+        'rest_base'          => 'faq_cat',
+        'rest_controller_class' => 'WP_REST_Terms_Controller'
+    ));
 }
 
+/**
+ * create "faq country" taxonomy
+ */
 function create_county() {
-    register_taxonomy(
-        'faq_county',
-        'faq',
-        array(
-            'label' => __( 'FAQ Länderschlüssel' ),
-            'rewrite' => array( 'slug' => 'faq_county' ),
-            'show_in_rest'       => true,
-            'rest_base'          => 'faq_cat',
-            'rest_controller_class' => 'WP_REST_Terms_Controller'
-        )
-    );
+    register_taxonomy('faq_county', 'faq', array(
+        'label' => __( 'FAQ Länderschlüssel' ),
+        'rewrite' => array( 'slug' => 'faq_county' ),
+        'show_in_rest'       => true,
+        'rest_base'          => 'faq_cat',
+        'rest_controller_class' => 'WP_REST_Terms_Controller'
+    ));
 }
 
 
 
+/**********************************************************************************************************************************************
+ *	Emergency post type and taxonomy
+ **********************************************************************************************************************************************/
 
-
-
-
-///////////////////////////////////////////////////////////////
-//////////////////// Emergency Post Type //////////////////////
-///////////////////////////////////////////////////////////////
-
-
-// Create FAQ custom post type
-function create_post_type_emergency()
-{
+// Create "emergeny" custom post type
+function create_post_type_emergency() {
+    // register taxonomy
     register_taxonomy_for_object_type('emergency_county', 'html5-blank');
-    register_post_type('emergency', // Register Custom Post Type
-        array(
-            'labels' => array(
-                'name' => __('Emergency Numbers', 'html5blank'), // Rename these to suit
-                'singular_name' => __('Emergency Number', 'html5blank'),
-                'add_new' => __('Add New', 'html5blank'),
-                'add_new_item' => __('Add New Number', 'html5blank'),
-                'edit' => __('Edit', 'html5blank'),
-                'edit_item' => __('Edit Emergency Number', 'html5blank'),
-                'new_item' => __('New Number', 'html5blank'),
-                'view' => __('Display Numbers', 'html5blank'),
-                'view_item' => __('View Number', 'html5blank'),
-                'search_items' => __('Search emergency numbers', 'html5blank'),
-                'not_found' => __('No question found', 'html5blank'),
-                'not_found_in_trash' => __('No emergency number found in Trash', 'html5blank')
-            ),
-            'description'        => __( 'Emergency Numbers', 'html5blank' ),
-            'public'             => true,
-            'publicly_queryable' => true,
-            'show_ui'            => true,
-            'show_in_menu'       => true,
-            'query_var'          => true,
-            'rewrite'            => array( 'slug' => 'emergency' ),
-            'capability_type'    => 'post',
-            'has_archive'        => true,
-            'hierarchical'       => false,
-            'menu_position'      => null,
-            'show_in_rest'       => true,
-            'rest_controller_class' => 'WP_REST_Posts_Controller',
-            'register_meta_box_cb' => 'add_number_metabox',
-            'supports' => array(
-                'title',
-                'custom-fields',
-                'editor'
-            ), // Go to Dashboard Custom HTML5 Blank post for supports
-            'can_export' => true // Allows export in Tools > Export
-            // Add Category and Post Tags support
-        ));
+    // register post type
+    register_post_type('emergency', array(
+        'labels' => array(
+            'name' => __('Emergency Numbers', 'html5blank'),
+            'singular_name' => __('Emergency Number', 'html5blank'),
+            'add_new' => __('Add New', 'html5blank'),
+            'add_new_item' => __('Add New Number', 'html5blank'),
+            'edit' => __('Edit', 'html5blank'),
+            'edit_item' => __('Edit Emergency Number', 'html5blank'),
+            'new_item' => __('New Number', 'html5blank'),
+            'view' => __('Display Numbers', 'html5blank'),
+            'view_item' => __('View Number', 'html5blank'),
+            'search_items' => __('Search emergency numbers', 'html5blank'),
+            'not_found' => __('No question found', 'html5blank'),
+            'not_found_in_trash' => __('No emergency number found in Trash', 'html5blank')
+        ),
+        'description'        => __( 'Emergency Numbers', 'html5blank' ),
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'emergency' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'show_in_rest'       => true,
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
+        'register_meta_box_cb' => 'add_number_metabox',
+        'supports' => array(
+            'title',
+            'custom-fields',
+            'editor'
+        ),
+        'can_export' => true
+    ));
 }
 
+// add "phonenumber" metabox
 function emergency_number_meta() {
     global $post;
     echo '<input type="hidden" name="emergencymeta_nonce" id="emergencymeta_nonce" value="' .
@@ -214,32 +205,23 @@ function emergency_number_meta() {
     $number = get_post_meta($post->ID, '_number', true);
     echo '<input type="text" name="_number" value="' . $number  . '" class="widefat" />';
 }
-
 function add_number_metabox() {
     add_meta_box('emergency_numbers', 'Phone Number', 'emergency_number_meta', 'emergency', 'side', 'high');
 }
-
 // Save the Metabox Data
-
 function save_emergency_meta($post_id, $post) {
-
     // verify this came from the our screen and with proper authorization,
     // because save_post can be triggered at other times
     if ( !wp_verify_nonce( $_POST['emergencymeta_nonce'], plugin_basename(__FILE__) )) {
         return $post->ID;
     }
-
     // Is the user allowed to edit the post or page?
     if ( !current_user_can( 'edit_post', $post->ID ))
         return $post->ID;
-
     // OK, we're authenticated: we need to find and save the data
     // We'll put it into an array to make it easier to loop though.
-
     $emergency_meta['_number'] = $_POST['_number'];
-
     // Add values of $events_meta as custom fields
-
     foreach ($emergency_meta as $key => $value) { // Cycle through the $events_meta array!
         if( $post->post_type == 'revision' ) return; // Don't store custom data twice
         $value = implode(',', (array)$value); // If $value is an array, make it a CSV (unlikely)
@@ -250,11 +232,9 @@ function save_emergency_meta($post_id, $post) {
         }
         if(!$value) delete_post_meta($post->ID, $key); // Delete if blank
     }
-
 }
 
-
-//Display Emergency Numbers in Post listing in Backend
+// Display Emergency Numbers in Post listing in Backend
 function display_emergency_numbers_head( $columns ) {
     $screen = get_current_screen();
     if  ( $screen->post_type == 'emergency' ) {
@@ -269,68 +249,30 @@ function display_emergency_numbers_body( $column_name, $post_id ) {
     }
 }
 
-//Laenderschlüsselfeld
+/**
+ * register "emergency country" taxonomiy
+ */
 function create_emergency_county() {
-    register_taxonomy(
-        'emergency_county',
-        'emergency',
-        array(
-            'label' => __( 'Notruf Länderschlüssel' ),
-            'rewrite' => array( 'slug' => 'emergency_county' ),
-            'show_in_rest'       => true,
-            'rest_base'          => 'faq_cat',
-            'rest_controller_class' => 'WP_REST_Terms_Controller'
-        )
-    );
+    register_taxonomy('emergency_county', 'emergency', array(
+        'label' => __( 'Notruf Länderschlüssel' ),
+        'rewrite' => array( 'slug' => 'emergency_county' ),
+        'show_in_rest'       => true,
+        'rest_base'          => 'faq_cat',
+        'rest_controller_class' => 'WP_REST_Terms_Controller'
+    ));
 }
 
 
 
-
-
-
-///////////////////////////////////////////////////////////////
-///////////////////////////// Misc ////////////////////////////
-///////////////////////////////////////////////////////////////
-
+/**********************************************************************************************************************************************
+ *	misc
+ **********************************************************************************************************************************************/
 function change_default_title( $title ){
     $screen = get_current_screen();
-
     if  ( $screen->post_type == 'faq' ) {
         return 'Enter Question here';
     }
 }
-
-
-add_action('init', 'create_post_type_faq'); //Create Post Type
-add_action( 'init', 'create_faq_cat' ); //Create Post Categories
-add_action( 'init', 'create_steps' ); //Create Asylum Steps
-add_action( 'init', 'create_county' ); //Create City-Code-Field
-
-add_action('init', 'create_post_type_emergency'); //load custom fields
-add_action('save_post', 'save_emergency_meta', 1, 2); // save the custom fields
-add_action( 'init', 'create_emergency_county' ); //Create City-Code-Field
-
-add_filter( 'enter_title_here', 'change_default_title' ); //change title-field name of the editor in FAQs
-
-
-
-// For registering the column
-add_filter( 'manage_posts_columns', 'display_emergency_numbers_head' );
-
-// For rendering the column
-add_action( 'manage_posts_custom_column', 'display_emergency_numbers_body', 10, 2 );
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Hook default_content
@@ -346,9 +288,10 @@ function gsw_set_default_content( $content, $post ) {
 }
 
 
-/**
- * Create new Endpoints to fetch "faq" and "emergency" data as JSON
- **/
+
+/**********************************************************************************************************************************************
+ *	Create new Endpoints to fetch "faq" and "emergency" data as JSON
+ **********************************************************************************************************************************************/
 
 /**
  * add additional query vars
@@ -384,7 +327,6 @@ function gsw_sniff_requests(){
         exit;
     }
 }
-add_action('parse_request', 'gsw_sniff_requests', 0);
 
 /**
  * get faq data
@@ -487,7 +429,6 @@ function gsw_get_emergency() {
         }
         // custom fields
         $custom_fields = get_post_custom($parent_id);
-        // add dataset
         $posts[] = array(
             'id'            => $post->ID,
             'original_id'   => $parent_id,
@@ -500,4 +441,28 @@ function gsw_get_emergency() {
 
     return $posts;
 }
-?>
+
+
+
+/**********************************************************************************************************************************************
+ *	Startup
+ **********************************************************************************************************************************************/
+
+add_action( 'init', 'create_post_type_faq'); //Create Post Type
+add_action( 'init', 'create_faq_cat' ); //Create Post Categories
+add_action( 'init', 'create_steps' ); //Create Asylum Steps
+add_action( 'init', 'create_county' ); //Create City-Code-Field
+
+add_action( 'init', 'create_post_type_emergency'); //load custom fields
+add_action( 'save_post', 'save_emergency_meta', 1, 2); // save the custom fields
+add_action( 'init', 'create_emergency_county' ); //Create City-Code-Field
+
+add_filter( 'enter_title_here', 'change_default_title' ); //change title-field name of the editor in FAQs
+
+// For registering the column
+add_filter( 'manage_posts_columns', 'display_emergency_numbers_head' );
+
+// For rendering the column
+add_action( 'manage_posts_custom_column', 'display_emergency_numbers_body', 10, 2 );
+
+add_action('parse_request', 'gsw_sniff_requests', 0);
