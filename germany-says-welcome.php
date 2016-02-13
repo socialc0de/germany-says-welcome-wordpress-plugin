@@ -85,10 +85,10 @@ function create_post_type_faq() {
         'labels' => array(
             'name' => __('FAQs', 'html5blank'),
             'singular_name' => __('FAQ', 'html5blank'),
-            'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New', 'html5blank'),
+            'add_new' => __('FAQ Eintrag erstellen', 'html5blank'),
+            'add_new_item' => __('Neuer FAQ Eintrag', 'html5blank'),
             'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit Question', 'html5blank'),
+            'edit_item' => __('FAQ Eintrag bearbeiten', 'html5blank'),
             'new_item' => __('New Question', 'html5blank'),
             'view' => __('Display Question', 'html5blank'),
             'view_item' => __('View Question', 'html5blank'),
@@ -123,7 +123,7 @@ function create_post_type_faq() {
  */
 function create_faq_cat() {
     register_taxonomy('faq_cat', 'faq', array(
-        'label' => __( 'FAQ Category' ),
+        'label' => __( 'FAQ Kategorien' ),
         'rewrite' => array( 'slug' => 'faq_cat' ),
         'hierarchical' => true,
         'query_var'         => true,
@@ -179,12 +179,12 @@ function create_post_type_emergency() {
     // register post type
     register_post_type('emergency', array(
         'labels' => array(
-            'name' => __('Emergency Numbers', 'html5blank'),
-            'singular_name' => __('Emergency Number', 'html5blank'),
-            'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New Number', 'html5blank'),
+            'name' => __('Notruf-Nummern', 'html5blank'),
+            'singular_name' => __('Notruf-Nummer', 'html5blank'),
+            'add_new' => __('Notruf-Nummer hinzufügen', 'html5blank'),
+            'add_new_item' => __('Notruf-Nummer hinzufügen', 'html5blank'),
             'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit Emergency Number', 'html5blank'),
+            'edit_item' => __('Notruf-Nummer bearbeiten', 'html5blank'),
             'new_item' => __('New Number', 'html5blank'),
             'view' => __('Display Numbers', 'html5blank'),
             'view_item' => __('View Number', 'html5blank'),
@@ -224,7 +224,7 @@ function emergency_number_meta() {
     echo '<input type="text" name="_number" value="' . $number  . '" class="widefat" />';
 }
 function add_number_metabox() {
-    add_meta_box('emergency_numbers', 'Phone Number', 'emergency_number_meta', 'emergency', 'side', 'high');
+    add_meta_box('emergency_numbers', 'Telefonnummer', 'emergency_number_meta', 'emergency', 'side', 'high');
 }
 // Save the Metabox Data
 function save_emergency_meta($post_id, $post) {
@@ -288,18 +288,21 @@ function create_emergency_county() {
 function change_default_title( $title ){
     $screen = get_current_screen();
     if  ( $screen->post_type == 'faq' ) {
-        return 'Enter Question here';
+        return 'Frage eingeben ...';
+    }
+    if  ( $screen->post_type == 'emergency' ) {
+        return 'Name eingeben ...';
     }
 }
 
 /**
  * Hook default_content
  * Set default value for content field cause wpml doesnt copy empty fields
- * Needed for custom content types "faq" and "emergency"
+ * Needed for custom content types "faq"
  */
 add_filter( 'default_content', 'gsw_set_default_content', 10, 2 );
 function gsw_set_default_content( $content, $post ) {
-    if( $post->post_type == 'faq' || $post->post_type == 'emergency' ) {
+    if( $post->post_type == 'faq' ) {
         $content = "Antwort eingeben ...";
     }
     return $content;
@@ -368,8 +371,7 @@ function gsw_get_faq() {
         foreach($terms as $term) {
             $categories[] = array(
                 'id'            => $term->term_id,
-                'original_id'   => icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() ),
-                'image_url'     => z_taxonomy_image_url(icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() ))
+                'original_id'   => icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() )
             );
         }
         // get steps
@@ -414,7 +416,8 @@ function gsw_get_faq_categories() {
         $categories[] = array(
             'id'            => $term->term_id,
             'original_id'   => icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() ),
-            'title'         => array('rendered' => $term->name)
+            'title'         => array('rendered' => $term->name),
+            'image'         => z_taxonomy_image_url(icl_object_id( $term->term_id, 'faq_cat', true, $sitepress->get_default_language() ))
         );
     }
 

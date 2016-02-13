@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e755181e-6337-4fe3-8314-113bbc19ac17" name="Default" comment="add default content on faq creation cause wpml doesnt copy empty fields">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/germany-says-welcome.php" afterPath="$PROJECT_DIR$/germany-says-welcome.php" />
     </list>
     <ignored path="germany-says-welcome-wordpress-plugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +28,8 @@
       <file leaf-file-name="germany-says-welcome.php" pinned="true" current-in-tab="true">
         <entry file="REMOTE_DEPLOYMENT_FS://&lt;42b76c47-8caf-4b6d-b981-d87ba039c368&gt;/var/wordpress/wordpress/wp-content/plugins/germany-says-welcome/germany-says-welcome.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34215885">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.54989815">
+              <caret line="419" column="110" selection-start-line="419" selection-start-column="100" selection-end-line="419" selection-end-column="110" />
               <folding>
                 <element signature="e#6#226#0#PHP" expanded="true" />
                 <marker date="0" expanded="true" signature="2663:2740" placeholder="..." />
@@ -224,7 +225,7 @@
         <state vertical-scroll-proportion="9.03512">
           <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding>
-            <marker date="1455373074000" expanded="true" signature="1975:2052" placeholder="..." />
+            <marker date="1455377237000" expanded="true" signature="1975:2052" placeholder="..." />
           </folding>
         </state>
       </provider>
