@@ -38,11 +38,25 @@ define("GSW_PATH", WP_PLUGIN_URL . "/" . GSW_DIR);
  **********************************************************************************************************************************************/
 
 /** Add plugin menu ***/
-function gsw_add_pages() {
-    add_menu_page('Germany Says Welcome Overview','Germany Says Welcome', 'read', 'gsw_overview', 'gsw_overview', GSW_PATH.'images/logo_small.png');
-    add_submenu_page('gsw_overview', 'Overview for the GSW Plugin', 'Overview', 'read', 'gsw_overview', 'gsw_intro');
+function gsw_manage_menu_pages() {
+    if(current_user_can( 'manage_options' )) {
+        add_menu_page('Germany Says Welcome Overview','Germany Says Welcome', 'read', 'gsw_overview', 'gsw_overview', GSW_PATH.'images/logo_small.png');
+        add_submenu_page('gsw_overview', 'Overview for the GSW Plugin', 'Overview', 'read', 'gsw_overview', 'gsw_intro');
+    } else {
+        remove_menu_page('edit.php'); // Posts
+        remove_menu_page('upload.php'); // Media
+        remove_menu_page('link-manager.php'); // Links
+        remove_menu_page('edit-comments.php'); // Comments
+        remove_menu_page('edit.php?post_type=page'); // Pages
+        remove_menu_page('plugins.php'); // Plugins
+        remove_menu_page('themes.php'); // Appearance
+        remove_menu_page('users.php'); // Users
+        remove_menu_page('tools.php'); // Tools
+        remove_menu_page('options-general.php'); // Settings
+        remove_submenu_page( 'index.php', 'update-core.php' );
+    }
 }
-add_action('admin_menu', 'gsw_add_pages');
+add_action('admin_menu', 'gsw_manage_menu_pages');
 
 /** Plugin Main Page **/
 function gsw_overview() {
@@ -133,6 +147,10 @@ function create_steps() {
         'rest_base'          => 'faq_cat',
         'rest_controller_class' => 'WP_REST_Terms_Controller'
     ));
+}
+function gsw_labels() {
+    global $wp_taxonomies;
+    //echo '<pre>';print_r($wp_taxonomies);echo '</pre>';die();
 }
 
 /**
@@ -286,7 +304,6 @@ function gsw_set_default_content( $content, $post ) {
     }
     return $content;
 }
-
 
 
 /**********************************************************************************************************************************************
@@ -466,3 +483,5 @@ add_filter( 'manage_posts_columns', 'display_emergency_numbers_head' );
 add_action( 'manage_posts_custom_column', 'display_emergency_numbers_body', 10, 2 );
 
 add_action('parse_request', 'gsw_sniff_requests', 0);
+
+add_action( 'init', 'gsw_labels');
